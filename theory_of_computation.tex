@@ -1,9 +1,10 @@
 \documentclass[b5paper,fleqn]{ltjsarticle}
-\usepackage{tkz-berge}
+\usepackage{amsmath,tkz-berge}
 \newcommand\s[1]{\subsection*{#1}\noindent\ignorespaces}
 \newcommand\sbs[1]{\subsubsection*{#1}}
 \newcommand\al[1]{\begin{align*}#1\end{align*}}
 \newcommand\tx{\intertext}
+\newcommand\ex[1]{\vskip5pt\underline{\bf 例}\quad#1\par}
 \renewcommand{\labelenumi}{\alph{enumi}).}
 \title{オートマトンと言語}
 \author{大阪分散技術コミュニティ}
@@ -22,6 +23,25 @@
 \item [言語] ja
 \item [内容]MIT屈指の名講義の講義ノートをまとめた書
 \end{description}
+
+\section{Notation}
+使用する記号と用語についてまとめる。
+\begin{description}
+\item[$\Sigma$: Alphabet] 空でない有限集合
+\item[$s$ :Symbol(文字)] アルファベットの元
+\item[$\omega$: String over an alphabet] 有限の文字列
+\item[$L$: Language(言語)] 文字列の集合
+\end{description}
+$w=s_1s_2\cdots s_n$であり、文字列と文字は区別される。
+\s{star(スター演算)}
+集合$A$に対してスター演算を以下で定義する。
+\[A^*=\{x_1x_2\cdots x_k|x_i\in A\}\]
+\ex{$\Sigma=\{0,1\}$とすると、$\Sigma^*=\{\varepsilon,0,1,00,01,10,11,\cdots\}$
+}
+\section{Automaton}
+Finite automaton(有限オートマトン)を以下で定義する。
+\[M=<Q,\Sigma,\delta,q_0,F>\]
+
 
 \section{Turing machine}
 Turing機械に対して、Mの言語(the language of M)を
