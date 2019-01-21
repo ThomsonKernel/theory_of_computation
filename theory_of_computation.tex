@@ -44,7 +44,7 @@ $w=s_1s_2\cdots s_n$であり、文字列と文字は区別される。$|w|=n$�
 \ex{$\Sigma=\{0,1\}$とすると、$\Sigma^*=\{\varepsilon,0,1,00,01,10,11,\cdots\}$
 }
 \section{Automaton}
-Finite Automaton(有限オートマトン)を以下で定義する。
+Finite Automaton(有限オートマトン)$M$を以下で定義する。
 \[M=<Q,\Sigma,\delta,q_0,F>\]
 \begin{description}
 \item[$Q$: States(状態集合)] 空でない有限集合
@@ -53,16 +53,26 @@ Finite Automaton(有限オートマトン)を以下で定義する。
 \item[$q_0$: Start state(開始状態)] $q_0\in Q$
 \item[$F$: Set of accept states(受理状態集合)] $F\subset Q$
 \end{description}
+$Q$の元$q$をState(状態)と言う。オートマトンは初期状態$q_0$から遷移関数に従って動作する。
+ある入力$\omega=s_0s_1\cdots s_n\in\Sigma^*$に対して、
+\[M(\omega):=\delta(\delta(\cdots\delta(\delta(\delta(q_0,s_0),s_1),s_2)\cdots,s_{n-1}),s_n)\]を定義する。
+$M(\omega)\in F$であれば$M$は入力$\omega$を受理(Accept)すると言う。
+受理しない時、$M$は入力$\omega$を拒否(reject)すると言う。
+
 \section{State Diagram}
-状態遷移図
+オートマトンは状態遷移図(state diagram)と呼ばれる図によって記述することができる。
+\vskip10pt
 \begin{tikzpicture}[node distance=3cm]
 \node[state,initial](q0){$q_0$};
 \node[state,accepting,right of=q0](q1){$q_1$};
 \node[state,right of=q1](q2){$q_2$};
-\draw[->](q0)--node[above]{$1$}(q1); 
-\draw[->,bend left](q1)edge node[above]{$0$}(q2)(q2)edge node [above] {$1$}(q1); 
+\draw[->](q0)edge[loop above]node[above]{$0$}()--node[above]{$1$}(q1)(q1)edge[loop above]node[above]{$1$}();
+\draw[->,bend left](q1)edge node[above]{$0$}(q2)(q2)edge node [above] {$0,1$}(q1); 
+\end{tikzpicture}\vskip5pt
+この図から、
+\[M=<\{q_0,q_1,q_2\},\{0,1\},\delta,q_0,\{q_1\}>\]
+が分かる。
 
-\end{tikzpicture}
 
 \section{Nondeterministic Automaton}
 先述の定義はDeterministic Finite Automaton(DFA, 決定性有限オートマトン)と呼ばれ、
