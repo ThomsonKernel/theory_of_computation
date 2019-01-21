@@ -1,5 +1,5 @@
 \documentclass[b5paper,fleqn]{ltjsarticle}
-\usepackage{amsmath,tkz-berge}
+\usepackage{amsmath,amsfonts,tikz}\usetikzlibrary{automata}\tikzset{initial text=}
 \newcommand\s[1]{\subsection*{#1}\noindent\ignorespaces}
 \newcommand\sbs[1]{\subsubsection*{#1}}
 \newcommand\al[1]{\begin{align*}#1\end{align*}}
@@ -28,20 +28,46 @@
 使用する記号と用語についてまとめる。
 \begin{description}
 \item[$\Sigma$: Alphabet] 空でない有限集合
-\item[$s$ :Symbol(文字)] アルファベットの元
+\item[$s$: Symbol(文字)] アルファベットの元
 \item[$\omega$: String over an alphabet] 有限の文字列
+\item[$|\omega|$: Length] 文字列の長さ
+\item[$\varepsilon$: Empty string(空列)]$|\varepsilon|:=0$
 \item[$L$: Language(言語)] 文字列の集合
+\item[$\Sigma_\varepsilon:=\Sigma\cup\{\varepsilon\}$]
+\item[$2^A$:] Aのべき集合 
+\item[$\mathbb{N}$:] 0を含む自然数
 \end{description}
-$w=s_1s_2\cdots s_n$であり、文字列と文字は区別される。
+$w=s_1s_2\cdots s_n$であり、文字列と文字は区別される。$|w|=n$である。
 \s{star(スター演算)}
 集合$A$に対してスター演算を以下で定義する。
-\[A^*=\{x_1x_2\cdots x_k|x_i\in A\}\]
+\[A^*=\{x_1x_2\cdots x_k|x_i\in A,k\in\mathbb{N}\}\]
 \ex{$\Sigma=\{0,1\}$とすると、$\Sigma^*=\{\varepsilon,0,1,00,01,10,11,\cdots\}$
 }
 \section{Automaton}
-Finite automaton(有限オートマトン)を以下で定義する。
+Finite Automaton(有限オートマトン)を以下で定義する。
 \[M=<Q,\Sigma,\delta,q_0,F>\]
+\begin{description}
+\item[$Q$: States(状態集合)] 空でない有限集合
+\item[$\Sigma$: Alphabet] 空でない有限集合
+\item[$\delta$: Transition functions(遷移関数)] $Q\times\Sigma\rightarrow Q$
+\item[$q_0$: Start state(開始状態)] $q_0\in Q$
+\item[$F$: Set of accept states(受理状態集合)] $F\subset Q$
+\end{description}
+\section{State Diagram}
+状態遷移図
+\begin{tikzpicture}[node distance=3cm]
+\node[state,initial](q0){$q_0$};
+\node[state,accepting,right of=q0](q1){$q_1$};
+\node[state,right of=q1](q2){$q_2$};
+\draw[->](q0)--node[above]{$1$}(q1); 
+\draw[->,bend left](q1)edge node[above]{$0$}(q2)(q2)edge node [above] {$1$}(q1); 
 
+\end{tikzpicture}
+
+\section{Nondeterministic Automaton}
+先述の定義はDeterministic Finite Automaton(DFA, 決定性有限オートマトン)と呼ばれ、
+遷移関数$\delta:\Sigma$を$a$に置き換えたものを、Nondeterministic Finite Automaton(NFA, 非決定性有限オートマトン)
+と呼ぶ。
 
 \section{Turing machine}
 Turing機械に対して、Mの言語(the language of M)を
@@ -116,11 +142,6 @@ $2^c$
 \sbs{0.8}
 pandax宿題
 \sbs{0.9}
-
 pandax宿題
-\begin{tikzpicture}
-\SetVertexMath
-\grComplete[RA=2]{5}
-\end{tikzpicture}
 
 \end{document}
