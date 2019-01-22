@@ -39,10 +39,12 @@
 \end{description}
 $w=s_1s_2\cdots s_n$であり、文字列と文字は区別される。$|w|=n$である。
 \s{star(スター演算)}
-集合$A$に対してスター演算を以下で定義する。
+集合$A$に対してスター演算を以下で定義する。ただし$|s|=0$なる元は$\varepsilon$に限る。
 \[A^*=\{x_1x_2\cdots x_k|x_i\in A,k\in\mathbb{N}\}\]
-\ex{$\Sigma=\{0,1\}$とすると、$\Sigma^*=\{\varepsilon,0,1,00,01,10,11,\cdots\}$
+\ex{$\Sigma=\{0,1\}$とすると、
+$\Sigma^*=\{\varepsilon,0,1,00,01,10,11,\cdots\}$
 }
+この例から分かるように、$s\in\Sigma, w\in\Sigma^*$である。
 \section{Automaton}
 Finite Automaton(有限オートマトン)$M$を以下で定義する。
 \[M=<Q,\Sigma,\delta,q_0,F>\]
@@ -61,6 +63,7 @@ $M(\omega)\in F$であれば$M$は入力$\omega$を受理(Accept)すると言う
 
 \section{State Diagram}
 オートマトンは状態遷移図(state diagram)と呼ばれる図によって記述することができる。
+初期状態を矢印で表し、状態は丸で囲む。受理状態は二重丸で表す。
 \vskip10pt
 \begin{tikzpicture}[node distance=3cm]
 \node[state,initial](q0){$q_0$};
@@ -71,15 +74,33 @@ $M(\omega)\in F$であれば$M$は入力$\omega$を受理(Accept)すると言う
 \end{tikzpicture}\vskip5pt
 この図から、
 \[M=<\{q_0,q_1,q_2\},\{0,1\},\delta,q_0,\{q_1\}>\]
-が分かる。
+が分かる。ただしここで、
+\al{\delta(q_0,0)=q_0, \delta(q_0,1)=q_1\\
+\delta(q_1,0)=q_2, \delta(q_1,1)=q_1\\
+\delta(q_2,0)=q_1, \delta(q_2,1)=q_1
+}である。\par
+オートマトンが正しく定義されるためには、
+任意の状態において、全ての文字に対する動作が決まらなければならない。
+図において全ての状態から$0$と$1$の矢印が出ていることに注意されたい。
 
+\section{Regular langage}
+機械Mの言語(Langeage of machine M)とは、
+\[M(L):=\{w\in \Sigma^*|M(w)\in F\}\]
+で定義される集合である。
+ある言語$L=\{w_1,w_2,w_3,\cdots\}$が、
+\[L=M(L)\]
+を満たすならば、機械$M$は言語$L$を認識(recogunize)と言う。
+この時、$L$を正規言語(Regular language)と呼ばれる。
 
 \section{Nondeterministic Automaton}
 先述の定義はDeterministic Finite Automaton(DFA, 決定性有限オートマトン)と呼ばれ、
-遷移関数$\delta:\Sigma$を$a$に置き換えたものを、Nondeterministic Finite Automaton(NFA, 非決定性有限オートマトン)
-と呼ぶ。
+遷移関数$\delta:\Sigma\times Q\rightarrow Q$を$\delta:\Sigma\times Q\rightarrow 2^Q$
+に置き換えたものを、Nondeterministic Finite Automaton(NFA, 非決定性有限オートマトン)と呼ぶ。
 
 \section{Turing machine}
+todo
+定義を含めて書き直す。
+
 Turing機械に対して、Mの言語(the language of M)を
 \[L(M)=\{\omega\in\Sigma^*|M(\omega)=accept\}\]
 によって定義する。
