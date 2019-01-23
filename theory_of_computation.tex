@@ -46,7 +46,7 @@ $\Sigma^*=\{\varepsilon,0,1,00,01,10,11,\cdots\}$
 }
 この例から分かるように、$s\in\Sigma, w\in\Sigma^*$である。
 \section{Automaton}
-Finite Automaton(有限オートマトン)$M$を以下で定義する。
+有限オートマトン(finite automaton)$M$を以下で定義する。
 \[M=<Q,\Sigma,\delta,q_0,F>\]
 \begin{description}
 \item[$Q$: States(状態集合)] 空でない有限集合
@@ -55,10 +55,10 @@ Finite Automaton(有限オートマトン)$M$を以下で定義する。
 \item[$q_0$: Start state(開始状態)] $q_0\in Q$
 \item[$F$: Set of accept states(受理状態集合)] $F\subset Q$
 \end{description}
-$Q$の元$q$をState(状態)と言う。オートマトンは初期状態$q_0$から遷移関数に従って動作する。
+$Q$の元$q$を状態(state)と言う。オートマトンは初期状態$q_0$から遷移関数に従って動作する。
 ある入力$\omega=s_0s_1\cdots s_n\in\Sigma^*$に対して、
 \[M(\omega):=\delta(\delta(\cdots\delta(\delta(\delta(q_0,s_0),s_1),s_2)\cdots,s_{n-1}),s_n)\]を定義する。
-$M(\omega)\in F$であれば$M$は入力$\omega$を受理(Accept)すると言う。
+$M(\omega)\in F$であれば$M$は入力$\omega$を受理(accept)すると言う。
 受理しない時、$M$は入力$\omega$を拒否(reject)すると言う。
 
 \section{State Diagram}
@@ -83,34 +83,58 @@ $M(\omega)\in F$であれば$M$は入力$\omega$を受理(Accept)すると言う
 任意の状態において、全ての文字に対する動作が決まらなければならない。
 図において全ての状態から$0$と$1$の矢印が出ていることに注意されたい。
 
-\section{Regular langage}
-機械Mの言語(Langeage of machine M)とは、
+\section{Regular Language}
+機械Mの言語(language of machine M)とは、
 \[M(L):=\{w\in \Sigma^*|M(w)\in F\}\]
 で定義される集合である。
 ある言語$L=\{w_1,w_2,w_3,\cdots\}$が、
 \[L=M(L)\]
-を満たすならば、機械$M$は言語$L$を認識(recogunize)と言う。
-この時、$L$を正規言語(Regular language)と呼ばれる。
+を満たすならば、機械$M$は言語$L$を認識(recognize)と言う。\par
+$L$を認識するオートマトン$M$が存在する時、$L$を正規言語(regular language)と呼ぶ。
 
 \section{Nondeterministic Automaton}
-先述の定義はDeterministic Finite Automaton(DFA, 決定性有限オートマトン)と呼ばれ、
+先述の定義は決定性有限オートマトン(Deterministic Finite Automaton, DFA)と呼ばれ、
 遷移関数$\delta:\Sigma\times Q\rightarrow Q$を$\delta:\Sigma\times Q\rightarrow 2^Q$
-に置き換えたものを、Nondeterministic Finite Automaton(NFA, 非決定性有限オートマトン)と呼ぶ。
+に置き換えたものを、非決定性有限オートマトン(Nondeterministic Finite Automaton, NFA)と呼ぶ。
+もはや、文字を読み込んだ後の状態は一意に決まる必要はない。
 
-\section{Turing machine}
-todo
-定義を含めて書き直す。
+\newpage
+\section{Turing Machine}
+チューリング機械(turing machine)$TM$を以下で定義する。
+\[TM=<Q,\Sigma,\Gamma,\delta,q_0,q_{accept},q_{reject}>\]
+\begin{description}
+\item[$Q$: States(状態集合)] 空でない有限集合
+\item[$\Sigma$: Alphabet] 空でない有限集合
+\item[$\Gamma$: Tape Alphabet] $\Sigma\subset\Gamma,$ \textvisiblespace$\hskip3pt\in\Gamma$
+\item[$\delta$: Transition functions(遷移関数)] $Q\times\Gamma\rightarrow Q\times\Gamma\times\{L,R\}$
+\item[$q_0$: Start state(開始状態)] $q_0\in Q$
+\item[$q_{accpet}$: Start state(開始状態)] $q_{accept}\in Q$
+\item[$q_{reject}$: Start state(開始状態)] $q_{reject}\in Q$
+\end{description}
+後で具体例を見るが、テープアルファベットとは、アルファベットに制御文字を足した集合である。
+必ず空白文字(blank symbol)\textvisiblespace を含む。\par
+オートマトンと比べて特徴的なのは$q_{reject}$が含まれている点である。
+すなわち、オートマトンは文字を必ず全て読み込んだ後に停止したが、
+チューリングマシーンはテープの途中で動作を停止できる。
 
-Turing機械に対して、Mの言語(the language of M)を
-\[L(M)=\{\omega\in\Sigma^*|M(\omega)=accept\}\]
-によって定義する。
-\subsection{Turing-recognizable}
-言語$L$が認識可能とは、あるTuring機械Mが存在し、$L(M)=L$となることである。
-\subsection{Turing-decidable}
+\section{具体例をかく}
+\section{計算の定義を与える}
+ある入力$\omega=s_0s_1\cdots s_n\in\Gamma^*$に対して、
+\[TM(\omega):=a\]
+\section{Regular Language}
+チューリング機械TMの言語(language of machine M)とは、
+\[TM(L):=\{w\in \Sigma^*|TM(w)=q_{accpet}\}\]
+で定義される集合である。
+ある言語$L=\{w_1,w_2,w_3,\cdots\}$が、
+\[L=TM(L)\]
+を満たすならば、チューリング機械$TM$は言語$L$を認識(recognize)と言う。\par
+$L$を認識するチューリング機械$TM$が存在する時、$L$は認識可能(turing-recognizable)と言う。
+\section{Decider}
+書き直す
 Turing機械$M$が判定装置(decider)であるとは
 \[\forall\omega\in\Sigma^*, M(\omega)\neq loop\]
 となることである。\par
-言語$L$が判定可能とは、$L$が認識可能かつ$M$が判定装置であることである。
+言語$L$が判定可能(Turing-decidable)とは、$L$が認識可能かつ$M$が判定装置であることである。
 
 \section{Annotation}
 
