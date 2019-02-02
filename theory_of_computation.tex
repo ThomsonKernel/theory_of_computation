@@ -110,7 +110,7 @@ $Q'$とは$Q$から$q_{accept}$と$q_{reject}$を除いた集合である。\\
 テープアルファベットとは、アルファベットに制御文字(control symbol)
 \[s'\notin\Sigma\land s'\in\Gamma\]
 を足した集合で、必ず空白文字(blank symbol)\textvisiblespace を含む。
-\section{Computation}
+\section{Diagram}
 チューリング機械は入力と、空白文字で埋められた無限長のテープを持ち、
 $q_{accept}$か$q_{reject}$のいずれかの状態になると動作を停止する。
 入力が$\omega=s_1s_2\cdots s_n\in\Sigma^*$である時、
@@ -160,7 +160,7 @@ $c_{accept}$や$c_{reject}$から先の計算は考えない。
 この時$TM(\omega)$は定義されないとする。
 
 \section{Turing-recognizable}
-チューリング機械TMの言語(language of machine M)とは、
+チューリング機械TMの言語(language of machine TM)とは、
 \[TM(L):=\{w\in \Sigma^*|TM(w)=q_{accpet}\}\]
 で定義される集合である。
 ある言語$L=\{w_1,w_2,w_3,\cdots\}$が、
