@@ -1,0 +1,14 @@
+\vskip15pt
+\tikz{
+  \def\min{15pt}\def\tape{.6mm}\def\sp{\textvisiblespace}
+  \matrix(m)[matrix of nodes,nodes={draw,anchor=south,minimum size=\min},nodes in empty cells]{
+    x&$s_2$&$s_3$&$\cdots$&$s_{n-1}$&$s_n$&\textvisiblespace&\textvisiblespace&\textvisiblespace\\
+  };\def\last{m-1-9}
+  \coordinate(p)at($(\last.north east)+(0,-.2pt)$);
+  \draw[<-,line width=.5pt] (m-1-2.north) |- ++(-30pt,+15pt) node[draw,left]{$q_2$};
+  \draw (p)--++(0,-\min);
+  \draw[snake=zigzag,segment aspect=0,segment length=1.5mm,segment amplitude=.2mm]
+  (p)--++(\tape,0)--++(0,-\min)--++(-\tape,0);
+  \node[right]at(m.east){$\cdots$};
+}
+\vskip10pt
