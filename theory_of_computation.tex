@@ -79,13 +79,13 @@ $M(\omega)\in F$であれば$M$は入力$\omega$を受理(accept)すると言う
 図において全ての状態から$0$と$1$の矢印が出ていることに注意されたい。
 
 \section{Regular Language}
-機械Mの言語(language of machine M)とは、
+機械$M$の言語(language of machine M)とは、
 \[M(L):=\{w\in \Sigma^*|M(w)\in F\}\]
 で定義される集合である。
 ある言語$L=\{w_1,w_2,w_3,\cdots\}$が、
 \[L=M(L)\]
-を満たすならば、機械$M$は言語$L$を認識(recognize)と言う。\par
-$L$を認識するオートマトン$M$が存在する時、$L$を正規言語(regular language)と呼ぶ。
+を満たすならば、$M$は$L$を認識(recognize)すると言う。\par
+言語$L$を認識するオートマトン$M$が存在する時、$L$を正規言語(regular language)と呼ぶ。
 
 \section{Nondeterministic Automaton}
 先述の定義は決定性有限オートマトン(Deterministic Finite Automaton, DFA)と呼ばれ、
@@ -101,36 +101,77 @@ $L$を認識するオートマトン$M$が存在する時、$L$を正規言語(r
 \item[$Q$: States(状態集合)] 空でない有限集合
 \item[$\Sigma$: Alphabet] 空でない有限集合
 \item[$\Gamma$: Tape Alphabet] $\Sigma\subset\Gamma,$ \textvisiblespace$\hskip3pt\in\Gamma$
-\item[$\delta$: Transition functions(遷移関数)] $Q\times\Gamma\rightarrow Q\times\Gamma\times\{L,R\}$
+\item[$\delta$: Transition functions(遷移関数)] $Q'\times\Gamma\rightarrow Q\times\Gamma\times\{L,R\}$
 \item[$q_0$: Start state(開始状態)] $q_0\in Q$
 \item[$q_{accpet}$: Start state(開始状態)] $q_{accept}\in Q$
-\item[$q_{reject}$: Start state(開始状態)] $q_{reject}\in Q$
+\item[$q_{reject}$: Start state(開始状態)] $q_{reject}\in Q (\neq q_{accept})$
 \end{description}
-後で具体例を見るが、テープアルファベットとは、アルファベットに制御文字を足した集合である。
-必ず空白文字(blank symbol)\textvisiblespace を含む。\par
-オートマトンと比べて特徴的なのは$q_{reject}$が含まれている点である。
-すなわち、オートマトンは文字を必ず全て読み込んだ後に停止したが、
-チューリングマシーンはテープの途中で動作を停止できる。
+$Q'$とは$Q$から$q_{accept}$と$q_{reject}$を除いた集合である。\\
+テープアルファベットとは、アルファベットに制御文字(control symbol)
+\[s'\notin\Sigma\land s'\in\Gamma\]
+を足した集合で、必ず空白文字(blank symbol)\textvisiblespace を含む。
+\section{Computation}
+チューリング機械は入力と、空白文字で埋められた無限長のテープを持ち、
+$q_{accept}$か$q_{reject}$のいずれかの状態になると動作を停止する。
+入力が$\omega=s_1s_2\cdots s_n\in\Sigma^*$である時、
+チューリング機械はテープとヘッド(制御部)を持った以下のような図式で表現される。
+\input{figure/turing_machine}
+初期状態$q_0$において、ヘッドは左端に位置する。
+ここから、遷移関数に従ってテープの内容を書き換えながら、ヘッドが左右に動いていく。
+このような描像をチューリング機械の計算と呼び、遷移関数の結果を参照する毎に、計算のステップが進むと考える。\par
+例えば、$\Gamma=\Sigma\cup\{\text{x, \textvisiblespace}\}, \delta(q_0,s_1)=(q_2,\text{x},R)$であれば、
+計算が1ステップ進むと
+\input{figure/turing_machine2}
+となる。ここでテープに空白でない制御文字が含まれていることに注意しよう。
 
 \section{Configuration}
-\input{figure/turing_machine}
-\section{計算の定義を与える}
-ある入力$\omega=s_0s_1\cdots s_n\in\Gamma^*$に対して、
-\[TM(\omega):=a\]
-\section{Regular Language}
+チューリング機械の計算状況(configuration)を以下のような列で表現する。
+\[c_i=uq_js_kv\]
+ここで$q_j$は現在の状態を表わし、$s_k$は次にチューリング機械が読み込む文字である。
+$u$と$v$はヘッドより左側と右側の文字列を代表する。ただし、右側の空白文字は含めない。
+計算のステップが一つ進む時、計算状況$c_i$は$c_{i+1}$に移る(yield)と言う。
+\ex{}
+\input{figure/turing_machine3}
+\noindent 計算状況は次の列で表現される。
+\[011q_500111\]
+チューリング機械が計算をする時、
+計算状況を並べることで列Cを得る。
+\[C=c_0,c_1,\cdots,c_n,\cdots\]
+チューリング機械の状態が$q_0,q_{accept},q_{reject}$のいずれかである時、それぞれの計算状況を
+\begin{itemize}
+\item 開始状況(start configuration)     $c_0$
+\item 受理状況(accepting configuration) $c_{accept}$ 
+\item 拒否状況(rejecting configuration) $c_{reject}$
+\end{itemize}
+と呼んで特に区別する。\par
+受理状況と拒否状況をあわせて停止状況(halting configuration)と呼ぶ。
+
+\section{Computation}
+ある入力$\omega=s_0s_1\cdots s_n\in\Sigma^*$に対して、$TM(\omega)$を以下で定める。
+\[TM(\omega):=
+\begin{cases}
+q_{accept}\quad\text{列$C=c_0,\cdots,c_{accpet}$が存在する。}\\
+q_{reject}\quad\text{列$C=c_0,\cdots,c_{reject}$が存在する。}\\
+\end{cases}
+\]
+一度でも停止状況になればチューリング機械は動作を停止するので、
+$c_{accept}$や$c_{reject}$から先の計算は考えない。
+このような有限の列が得られない時、チューリング機械はループ(loop)するという。
+この時$TM(\omega)$は定義されないとする。
+
+\section{Turing-recognizable}
 チューリング機械TMの言語(language of machine M)とは、
 \[TM(L):=\{w\in \Sigma^*|TM(w)=q_{accpet}\}\]
 で定義される集合である。
 ある言語$L=\{w_1,w_2,w_3,\cdots\}$が、
 \[L=TM(L)\]
-を満たすならば、チューリング機械$TM$は言語$L$を認識(recognize)と言う。\par
-$L$を認識するチューリング機械$TM$が存在する時、$L$は認識可能(turing-recognizable)と言う。
-\section{Decider}
-書き直す
-Turing機械$M$が判定装置(decider)であるとは
-\[\forall\omega\in\Sigma^*, M(\omega)\neq loop\]
-となることである。\par
-言語$L$が判定可能(Turing-decidable)とは、$L$が認識可能かつ$M$が判定装置であることである。
+を満たすならば、$TM$は$L$を認識(recognize)すると言う。\par
+言語$L$を認識するチューリング機械$TM$が存在する時、$L$をチューリング認識可能(turing-recognizable)と言う。
+\section{Turing-decidable}
+チューリング機械$TM$が任意の$\omega\in\Sigma^*$に対して、
+$TM(\omega)$を定義する時、$TM$を判定装置(decider)と言う。\par
+言語$L$が判定可能(turing-decidable)とは、$L$が認識可能であって、判定装置であるような$TM$が
+存在することである。
 
 \section{Annotation}
 
